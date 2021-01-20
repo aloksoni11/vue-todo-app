@@ -3,7 +3,7 @@
     <todo-sidebar></todo-sidebar>
 
     <div class="sidebar-content">
-      <b-card>
+      <b-card class="border-0">
         <b-form-group>
           <b-input-group>
             <b-input-group-prepend is-text>
@@ -39,26 +39,31 @@
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
-        <b-list-group>
-          <b-list-group-item v-for="(todo, index) in filterData" :key="index">
+        <transition-group
+          name="slide-up"
+          tag="ul"
+          class="todo-list" appear>
+          <li v-for="(todo,index) in filterData"
+          :key="`${$route.path} ${todo.userId}`"
+          :style="`transition-delay: ${index / 10}s`">
             {{ todo.title }}
             <b-badge
-              v-for="(tag, index) in todo.tags"
-              :key="index"
+              v-for="tag in todo.tags"
+              :key="tag.name"
               :variant="tag.color"
               class="float-right mr-1"
             >
               {{ tag.name }}
             </b-badge>
-          </b-list-group-item>
-          <b-list-group-item
-            variant="danger"
-            class="text-center"
+          </li>
+          <li
+            class="text-danger text-center cursor-pointer"
+            key="empty-search"
             v-show="filterData.length == 0"
           >
             Search Not Found!
-          </b-list-group-item>
-        </b-list-group>
+          </li>
+        </transition-group>
       </b-card>
     </div>
   </div>
@@ -73,7 +78,6 @@ export default {
   },
   data() {
     return {
-      // search: this.$route.query.q||'' ,
       todoData: [
         {
           userId: 1,
@@ -294,9 +298,7 @@ export default {
           );
           return todoResult.length !== 0 && filterBySearch;
         }
-        return (
-          filterBySearch
-        );
+        return filterBySearch;
       });
     },
     search: {
@@ -313,7 +315,6 @@ export default {
             .push({ query: { sort: this.$route.query.sort } })
             .catch(() => {});
         }
-        // return newValue
       },
     },
   },
@@ -355,8 +356,32 @@ export default {
 };
 </script>
 
-<style lang="css">
-/* .sidebar-content{
+<style lang="scss">
+.slide-up-enter{
+  transform: translateY(100%);
+  opacity: 0;
+}
+.slide-up-leave,.slide-up-leave-active{
+  transition:none !important;
+}
+.slide-up-enter-active{
+  transition-property: all;
+  transition-duration:.35s ;
+}
 
-  } */
+ul.todo-list{
+  list-style-type: none;
+  margin: 0 !important;
+  padding: 0;
+  li{
+    height:49px;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    margin-bottom: 10px;
+    border-radius: 4px;
+    &.cursor-pointer{
+      cursor: pointer;
+    }
+  }
+}
 </style>

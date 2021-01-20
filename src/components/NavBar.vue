@@ -1,13 +1,12 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" variant="secondary" class="mb-4">
-    <b-navbar-brand :to="{name:'home'}" class="text-warning">NavBar</b-navbar-brand>
+  <b-navbar toggleable="md" type="dark" variant="secondary">
+    <b-navbar-brand :to="{name:'todo'}" class="text-warning">TODO APP</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item :to="{name:'home'}">Home</b-nav-item>
-        <b-nav-item :to="{name:'todo'}">Todo</b-nav-item>
+        <!-- <b-nav-item :to="{name:'todo'}">Todo</b-nav-item> -->
         <b-nav-item :to="{name:'about'}">About</b-nav-item>
       </b-navbar-nav>
 
